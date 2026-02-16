@@ -31,27 +31,27 @@ class ConstraintType(IntEnum):
 
 
 # String names used by the FreeCAD Python API for Constraint.Type
-CONSTRAINT_TYPE_NAMES: dict[int, str] = {
-    0: "None",
-    1: "Coincident",
-    2: "Horizontal",
-    3: "Vertical",
-    4: "Parallel",
-    5: "Tangent",
-    6: "Distance",
-    7: "DistanceX",
-    8: "DistanceY",
-    9: "Angle",
-    10: "Perpendicular",
-    11: "Radius",
-    12: "Equal",
-    13: "PointOnObject",
-    14: "Symmetric",
-    15: "InternalAlignment",
-    16: "SnellsLaw",
-    17: "Block",
-    18: "Diameter",
-    19: "Weight",
+CONSTRAINT_TYPE_NAMES: dict[ConstraintType, str] = {
+    ConstraintType.NONE: "None",
+    ConstraintType.Coincident: "Coincident",
+    ConstraintType.Horizontal: "Horizontal",
+    ConstraintType.Vertical: "Vertical",
+    ConstraintType.Parallel: "Parallel",
+    ConstraintType.Tangent: "Tangent",
+    ConstraintType.Distance: "Distance",
+    ConstraintType.DistanceX: "DistanceX",
+    ConstraintType.DistanceY: "DistanceY",
+    ConstraintType.Angle: "Angle",
+    ConstraintType.Perpendicular: "Perpendicular",
+    ConstraintType.Radius: "Radius",
+    ConstraintType.Equal: "Equal",
+    ConstraintType.PointOnObject: "PointOnObject",
+    ConstraintType.Symmetric: "Symmetric",
+    ConstraintType.InternalAlignment: "InternalAlignment",
+    ConstraintType.SnellsLaw: "SnellsLaw",
+    ConstraintType.Block: "Block",
+    ConstraintType.Diameter: "Diameter",
+    ConstraintType.Weight: "Weight",
 }
 
 

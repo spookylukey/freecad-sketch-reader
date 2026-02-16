@@ -7,7 +7,7 @@ import zipfile
 from pathlib import Path
 from typing import IO
 
-from .enums import CONSTRAINT_TYPE_NAMES, PointPos
+from .enums import CONSTRAINT_TYPE_NAMES, ConstraintType, PointPos
 from .models import (
     BSplineKnot,
     BSplinePole,
@@ -287,7 +287,15 @@ def _parse_constraints(prop_el: ET.Element) -> list[Constraint]:
     result: list[Constraint] = []
     for c_el in cl_el.findall("Constrain"):
         type_int = _int(c_el, "Type")
-        type_str = CONSTRAINT_TYPE_NAMES.get(type_int, f"Unknown({type_int})")
+        try:
+            type_enum = ConstraintType(type_int)
+        except ValueError:
+            type_enum = None
+        type_str = (
+            CONSTRAINT_TYPE_NAMES.get(type_enum, f"Unknown({type_int})")
+            if type_enum is not None
+            else f"Unknown({type_int})"
+        )
         result.append(
             Constraint(
                 Type=type_str,
