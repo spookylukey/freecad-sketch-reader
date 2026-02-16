@@ -62,203 +62,192 @@ def _axis_from(el: ET.Element) -> Vector:
     )
 
 
-def _parse_geometry_element(geom_el: ET.Element) -> Geometry | None:
+def _parse_geometry_element(geom_el: ET.Element) -> Geometry:
     """Parse a single <Geometry type="..."> element."""
     geom_type = geom_el.get("type", "")
     construction = _parse_construction(geom_el)
 
-    if geom_type == "Part::GeomPoint":
-        pt_el = geom_el.find("GeomPoint")
-        if pt_el is None:
-            return None
-        return GeomPoint(
-            X=_float(pt_el, "X"),
-            Y=_float(pt_el, "Y"),
-            Z=_float(pt_el, "Z"),
-            Construction=construction,
-        )
+    def _require(tag: str) -> ET.Element:
+        el = geom_el.find(tag)
+        if el is None:
+            msg = f"Missing <{tag}> child element in <Geometry type='{geom_type}'>"
+            raise ValueError(msg)
+        return el
 
-    if geom_type == "Part::GeomLine":
-        line_el = geom_el.find("GeomLine")
-        if line_el is None:
-            return None
-        return GeomLine(
-            Location=Vector(
-                _float(line_el, "PosX"), _float(line_el, "PosY"), _float(line_el, "PosZ")
-            ),
-            Direction=Vector(
-                _float(line_el, "DirX"), _float(line_el, "DirY"), _float(line_el, "DirZ")
-            ),
-            Construction=construction,
-        )
+    match geom_type:
+        case "Part::GeomPoint":
+            pt_el = _require("GeomPoint")
+            return GeomPoint(
+                X=_float(pt_el, "X"),
+                Y=_float(pt_el, "Y"),
+                Z=_float(pt_el, "Z"),
+                Construction=construction,
+            )
 
-    if geom_type == "Part::GeomLineSegment":
-        ls_el = geom_el.find("LineSegment")
-        if ls_el is None:
-            return None
-        return GeomLineSegment(
-            StartPoint=Vector(
-                _float(ls_el, "StartX"), _float(ls_el, "StartY"), _float(ls_el, "StartZ")
-            ),
-            EndPoint=Vector(_float(ls_el, "EndX"), _float(ls_el, "EndY"), _float(ls_el, "EndZ")),
-            Construction=construction,
-        )
+        case "Part::GeomLine":
+            line_el = _require("GeomLine")
+            return GeomLine(
+                Location=Vector(
+                    _float(line_el, "PosX"), _float(line_el, "PosY"), _float(line_el, "PosZ")
+                ),
+                Direction=Vector(
+                    _float(line_el, "DirX"), _float(line_el, "DirY"), _float(line_el, "DirZ")
+                ),
+                Construction=construction,
+            )
 
-    if geom_type == "Part::GeomCircle":
-        c_el = geom_el.find("Circle")
-        if c_el is None:
-            return None
-        return GeomCircle(
-            Center=Vector(
-                _float(c_el, "CenterX"), _float(c_el, "CenterY"), _float(c_el, "CenterZ")
-            ),
-            Radius=_float(c_el, "Radius"),
-            AngleXU=_float(c_el, "AngleXU"),
-            Axis=_axis_from(c_el),
-            Construction=construction,
-        )
+        case "Part::GeomLineSegment":
+            ls_el = _require("LineSegment")
+            return GeomLineSegment(
+                StartPoint=Vector(
+                    _float(ls_el, "StartX"), _float(ls_el, "StartY"), _float(ls_el, "StartZ")
+                ),
+                EndPoint=Vector(
+                    _float(ls_el, "EndX"), _float(ls_el, "EndY"), _float(ls_el, "EndZ")
+                ),
+                Construction=construction,
+            )
 
-    if geom_type == "Part::GeomArcOfCircle":
-        a_el = geom_el.find("ArcOfCircle")
-        if a_el is None:
-            return None
-        return GeomArcOfCircle(
-            Center=Vector(
-                _float(a_el, "CenterX"), _float(a_el, "CenterY"), _float(a_el, "CenterZ")
-            ),
-            Radius=_float(a_el, "Radius"),
-            AngleXU=_float(a_el, "AngleXU"),
-            Axis=_axis_from(a_el),
-            StartAngle=_float(a_el, "StartAngle"),
-            EndAngle=_float(a_el, "EndAngle"),
-            Construction=construction,
-        )
+        case "Part::GeomCircle":
+            c_el = _require("Circle")
+            return GeomCircle(
+                Center=Vector(
+                    _float(c_el, "CenterX"), _float(c_el, "CenterY"), _float(c_el, "CenterZ")
+                ),
+                Radius=_float(c_el, "Radius"),
+                AngleXU=_float(c_el, "AngleXU"),
+                Axis=_axis_from(c_el),
+                Construction=construction,
+            )
 
-    if geom_type == "Part::GeomEllipse":
-        e_el = geom_el.find("Ellipse")
-        if e_el is None:
-            return None
-        return GeomEllipse(
-            Center=Vector(
-                _float(e_el, "CenterX"), _float(e_el, "CenterY"), _float(e_el, "CenterZ")
-            ),
-            MajorRadius=_float(e_el, "MajorRadius"),
-            MinorRadius=_float(e_el, "MinorRadius"),
-            AngleXU=_float(e_el, "AngleXU"),
-            Axis=_axis_from(e_el),
-            Construction=construction,
-        )
+        case "Part::GeomArcOfCircle":
+            a_el = _require("ArcOfCircle")
+            return GeomArcOfCircle(
+                Center=Vector(
+                    _float(a_el, "CenterX"), _float(a_el, "CenterY"), _float(a_el, "CenterZ")
+                ),
+                Radius=_float(a_el, "Radius"),
+                AngleXU=_float(a_el, "AngleXU"),
+                Axis=_axis_from(a_el),
+                StartAngle=_float(a_el, "StartAngle"),
+                EndAngle=_float(a_el, "EndAngle"),
+                Construction=construction,
+            )
 
-    if geom_type == "Part::GeomArcOfEllipse":
-        ae_el = geom_el.find("ArcOfEllipse")
-        if ae_el is None:
-            return None
-        return GeomArcOfEllipse(
-            Center=Vector(
-                _float(ae_el, "CenterX"), _float(ae_el, "CenterY"), _float(ae_el, "CenterZ")
-            ),
-            MajorRadius=_float(ae_el, "MajorRadius"),
-            MinorRadius=_float(ae_el, "MinorRadius"),
-            AngleXU=_float(ae_el, "AngleXU"),
-            Axis=_axis_from(ae_el),
-            StartAngle=_float(ae_el, "StartAngle"),
-            EndAngle=_float(ae_el, "EndAngle"),
-            Construction=construction,
-        )
+        case "Part::GeomEllipse":
+            e_el = _require("Ellipse")
+            return GeomEllipse(
+                Center=Vector(
+                    _float(e_el, "CenterX"), _float(e_el, "CenterY"), _float(e_el, "CenterZ")
+                ),
+                MajorRadius=_float(e_el, "MajorRadius"),
+                MinorRadius=_float(e_el, "MinorRadius"),
+                AngleXU=_float(e_el, "AngleXU"),
+                Axis=_axis_from(e_el),
+                Construction=construction,
+            )
 
-    if geom_type == "Part::GeomHyperbola":
-        h_el = geom_el.find("Hyperbola")
-        if h_el is None:
-            return None
-        return GeomHyperbola(
-            Center=Vector(
-                _float(h_el, "CenterX"), _float(h_el, "CenterY"), _float(h_el, "CenterZ")
-            ),
-            MajorRadius=_float(h_el, "MajorRadius"),
-            MinorRadius=_float(h_el, "MinorRadius"),
-            AngleXU=_float(h_el, "AngleXU"),
-            Axis=_axis_from(h_el),
-            Construction=construction,
-        )
+        case "Part::GeomArcOfEllipse":
+            ae_el = _require("ArcOfEllipse")
+            return GeomArcOfEllipse(
+                Center=Vector(
+                    _float(ae_el, "CenterX"), _float(ae_el, "CenterY"), _float(ae_el, "CenterZ")
+                ),
+                MajorRadius=_float(ae_el, "MajorRadius"),
+                MinorRadius=_float(ae_el, "MinorRadius"),
+                AngleXU=_float(ae_el, "AngleXU"),
+                Axis=_axis_from(ae_el),
+                StartAngle=_float(ae_el, "StartAngle"),
+                EndAngle=_float(ae_el, "EndAngle"),
+                Construction=construction,
+            )
 
-    if geom_type == "Part::GeomArcOfHyperbola":
-        ah_el = geom_el.find("ArcOfHyperbola")
-        if ah_el is None:
-            return None
-        return GeomArcOfHyperbola(
-            Center=Vector(
-                _float(ah_el, "CenterX"), _float(ah_el, "CenterY"), _float(ah_el, "CenterZ")
-            ),
-            MajorRadius=_float(ah_el, "MajorRadius"),
-            MinorRadius=_float(ah_el, "MinorRadius"),
-            AngleXU=_float(ah_el, "AngleXU"),
-            Axis=_axis_from(ah_el),
-            StartAngle=_float(ah_el, "StartAngle"),
-            EndAngle=_float(ah_el, "EndAngle"),
-            Construction=construction,
-        )
+        case "Part::GeomHyperbola":
+            h_el = _require("Hyperbola")
+            return GeomHyperbola(
+                Center=Vector(
+                    _float(h_el, "CenterX"), _float(h_el, "CenterY"), _float(h_el, "CenterZ")
+                ),
+                MajorRadius=_float(h_el, "MajorRadius"),
+                MinorRadius=_float(h_el, "MinorRadius"),
+                AngleXU=_float(h_el, "AngleXU"),
+                Axis=_axis_from(h_el),
+                Construction=construction,
+            )
 
-    if geom_type == "Part::GeomParabola":
-        p_el = geom_el.find("Parabola")
-        if p_el is None:
-            return None
-        return GeomParabola(
-            Center=Vector(
-                _float(p_el, "CenterX"), _float(p_el, "CenterY"), _float(p_el, "CenterZ")
-            ),
-            Focal=_float(p_el, "Focal"),
-            AngleXU=_float(p_el, "AngleXU"),
-            Axis=_axis_from(p_el),
-            Construction=construction,
-        )
+        case "Part::GeomArcOfHyperbola":
+            ah_el = _require("ArcOfHyperbola")
+            return GeomArcOfHyperbola(
+                Center=Vector(
+                    _float(ah_el, "CenterX"), _float(ah_el, "CenterY"), _float(ah_el, "CenterZ")
+                ),
+                MajorRadius=_float(ah_el, "MajorRadius"),
+                MinorRadius=_float(ah_el, "MinorRadius"),
+                AngleXU=_float(ah_el, "AngleXU"),
+                Axis=_axis_from(ah_el),
+                StartAngle=_float(ah_el, "StartAngle"),
+                EndAngle=_float(ah_el, "EndAngle"),
+                Construction=construction,
+            )
 
-    if geom_type == "Part::GeomArcOfParabola":
-        ap_el = geom_el.find("ArcOfParabola")
-        if ap_el is None:
-            return None
-        return GeomArcOfParabola(
-            Center=Vector(
-                _float(ap_el, "CenterX"), _float(ap_el, "CenterY"), _float(ap_el, "CenterZ")
-            ),
-            Focal=_float(ap_el, "Focal"),
-            AngleXU=_float(ap_el, "AngleXU"),
-            Axis=_axis_from(ap_el),
-            StartAngle=_float(ap_el, "StartAngle"),
-            EndAngle=_float(ap_el, "EndAngle"),
-            Construction=construction,
-        )
+        case "Part::GeomParabola":
+            p_el = _require("Parabola")
+            return GeomParabola(
+                Center=Vector(
+                    _float(p_el, "CenterX"), _float(p_el, "CenterY"), _float(p_el, "CenterZ")
+                ),
+                Focal=_float(p_el, "Focal"),
+                AngleXU=_float(p_el, "AngleXU"),
+                Axis=_axis_from(p_el),
+                Construction=construction,
+            )
 
-    if geom_type == "Part::GeomBSplineCurve":
-        bs_el = geom_el.find("BSplineCurve")
-        if bs_el is None:
-            return None
-        poles: list[BSplinePole] = []
-        knots: list[BSplineKnot] = []
-        for child in bs_el:
-            if child.tag == "Pole":
-                poles.append(
-                    BSplinePole(
-                        Point=Vector(_float(child, "X"), _float(child, "Y"), _float(child, "Z")),
-                        Weight=_float(child, "Weight", 1.0),
+        case "Part::GeomArcOfParabola":
+            ap_el = _require("ArcOfParabola")
+            return GeomArcOfParabola(
+                Center=Vector(
+                    _float(ap_el, "CenterX"), _float(ap_el, "CenterY"), _float(ap_el, "CenterZ")
+                ),
+                Focal=_float(ap_el, "Focal"),
+                AngleXU=_float(ap_el, "AngleXU"),
+                Axis=_axis_from(ap_el),
+                StartAngle=_float(ap_el, "StartAngle"),
+                EndAngle=_float(ap_el, "EndAngle"),
+                Construction=construction,
+            )
+
+        case "Part::GeomBSplineCurve":
+            bs_el = _require("BSplineCurve")
+            poles: list[BSplinePole] = []
+            knots: list[BSplineKnot] = []
+            for child in bs_el:
+                if child.tag == "Pole":
+                    poles.append(
+                        BSplinePole(
+                            Point=Vector(
+                                _float(child, "X"), _float(child, "Y"), _float(child, "Z")
+                            ),
+                            Weight=_float(child, "Weight", 1.0),
+                        )
                     )
-                )
-            elif child.tag == "Knot":
-                knots.append(
-                    BSplineKnot(
-                        Value=_float(child, "Value"),
-                        Mult=_int(child, "Mult", 1),
+                elif child.tag == "Knot":
+                    knots.append(
+                        BSplineKnot(
+                            Value=_float(child, "Value"),
+                            Mult=_int(child, "Mult", 1),
+                        )
                     )
-                )
-        return GeomBSplineCurve(
-            Degree=_int(bs_el, "Degree"),
-            IsPeriodic=bs_el.get("IsPeriodic", "0") == "1",
-            Poles=poles,
-            Knots=knots,
-            Construction=construction,
-        )
+            return GeomBSplineCurve(
+                Degree=_int(bs_el, "Degree"),
+                IsPeriodic=bs_el.get("IsPeriodic", "0") == "1",
+                Poles=poles,
+                Knots=knots,
+                Construction=construction,
+            )
 
-    # Unknown geometry type — skip
-    return None
+        case _:
+            msg = f"Unknown geometry type: {geom_type!r}"
+            raise ValueError(msg)
 
 
 def _parse_geometry_list(prop_el: ET.Element) -> list[Geometry]:
@@ -268,9 +257,7 @@ def _parse_geometry_list(prop_el: ET.Element) -> list[Geometry]:
         return []
     result: list[Geometry] = []
     for geom_el in geom_list_el.findall("Geometry"):
-        geom = _parse_geometry_element(geom_el)
-        if geom is not None:
-            result.append(geom)
+        result.append(_parse_geometry_element(geom_el))
     return result
 
 
