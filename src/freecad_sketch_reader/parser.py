@@ -7,7 +7,7 @@ import zipfile
 from pathlib import Path
 from typing import IO
 
-from .enums import CONSTRAINT_TYPE_NAMES, ConstraintType, PointPos
+from .enums import CONSTRAINT_TYPE_NAMES, ConstraintType, ConstraintTypeName, PointPos
 from .models import (
     BSplineKnot,
     BSplinePole,
@@ -289,13 +289,9 @@ def _parse_constraints(prop_el: ET.Element) -> list[Constraint]:
         type_int = _int(c_el, "Type")
         try:
             type_enum = ConstraintType(type_int)
-        except ValueError:
-            type_enum = None
-        type_str = (
-            CONSTRAINT_TYPE_NAMES.get(type_enum, f"Unknown({type_int})")
-            if type_enum is not None
-            else f"Unknown({type_int})"
-        )
+        except ValueError as err:
+            raise AssertionError(f"Unknown constraint type {type_int}") from err
+        type_str = CONSTRAINT_TYPE_NAMES[type_enum]
         result.append(
             Constraint(
                 Type=type_str,

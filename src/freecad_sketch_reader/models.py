@@ -57,7 +57,7 @@ class Constraint:
     ``Type`` is the human-readable string (e.g. ``"Distance"``).
     """
 
-    Type: ConstraintTypeName | str
+    Type: ConstraintTypeName
     Name: str = ""
     Value: float = 0.0
     First: int = -2000
