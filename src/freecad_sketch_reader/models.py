@@ -9,7 +9,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 
-from .enums import PointPos
+from .enums import ConstraintTypeName, PointPos
 
 __all__ = [
     "Constraint",
@@ -57,7 +57,7 @@ class Constraint:
     ``Type`` is the human-readable string (e.g. ``"Distance"``).
     """
 
-    Type: str
+    Type: ConstraintTypeName | str
     Name: str = ""
     Value: float = 0.0
     First: int = -2000

@@ -1,6 +1,6 @@
 """Read Sketch objects from FreeCAD .FCStd files."""
 
-from .enums import ConstraintType, InternalAlignmentType, PointPos
+from .enums import ConstraintType, ConstraintTypeName, InternalAlignmentType, PointPos
 from .models import (
     Constraint,
     GeomArcOfCircle,
@@ -24,6 +24,7 @@ from .parser import read_sketches, read_sketches_from_xml
 __all__ = [
     "Constraint",
     "ConstraintType",
+    "ConstraintTypeName",
     "GeomArcOfCircle",
     "GeomArcOfEllipse",
     "GeomArcOfHyperbola",

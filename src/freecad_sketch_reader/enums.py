@@ -1,8 +1,9 @@
 """Enums matching FreeCAD Sketcher internal types."""
 
 from enum import IntEnum
+from typing import Literal
 
-__all__ = ["ConstraintType", "InternalAlignmentType", "PointPos"]
+__all__ = ["ConstraintType", "ConstraintTypeName", "InternalAlignmentType", "PointPos"]
 
 
 class ConstraintType(IntEnum):
@@ -30,8 +31,33 @@ class ConstraintType(IntEnum):
     Weight = 19
 
 
+# Literal type covering all constraint type name strings.
+ConstraintTypeName = Literal[
+    "None",
+    "Coincident",
+    "Horizontal",
+    "Vertical",
+    "Parallel",
+    "Tangent",
+    "Distance",
+    "DistanceX",
+    "DistanceY",
+    "Angle",
+    "Perpendicular",
+    "Radius",
+    "Equal",
+    "PointOnObject",
+    "Symmetric",
+    "InternalAlignment",
+    "SnellsLaw",
+    "Block",
+    "Diameter",
+    "Weight",
+]
+
+
 # String names used by the FreeCAD Python API for Constraint.Type
-CONSTRAINT_TYPE_NAMES: dict[ConstraintType, str] = {
+CONSTRAINT_TYPE_NAMES: dict[ConstraintType, ConstraintTypeName] = {
     ConstraintType.NONE: "None",
     ConstraintType.Coincident: "Coincident",
     ConstraintType.Horizontal: "Horizontal",
