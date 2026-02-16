@@ -7,7 +7,7 @@ import zipfile
 from pathlib import Path
 from typing import IO
 
-from .enums import CONSTRAINT_TYPE_NAMES, ConstraintType, ConstraintTypeName, PointPos
+from .enums import CONSTRAINT_TYPE_NAMES, ConstraintType, PointPos
 from .models import (
     BSplineKnot,
     BSplinePole,
