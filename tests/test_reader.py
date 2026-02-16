@@ -7,6 +7,7 @@ import pytest
 from freecad_sketch_reader import (
     GeomArcOfCircle,
     GeomLineSegment,
+    PointPos,
     Sketch,
     Vector,
     read_sketches,
@@ -127,9 +128,9 @@ class TestConstraints:
     def test_first_constraint_geometry_refs(self, sketch: Sketch) -> None:
         c = sketch.Constraints[0]
         assert c.First == 0
-        assert c.FirstPos == 1  # start
+        assert c.FirstPos == PointPos.start
         assert c.Second == -1
-        assert c.SecondPos == 1  # start
+        assert c.SecondPos == PointPos.start
 
     def test_distance_constraint(self, sketch: Sketch) -> None:
         # Constraint 12 is Distance with Value=130

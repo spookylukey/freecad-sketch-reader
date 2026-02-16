@@ -9,6 +9,8 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 
+from .enums import PointPos
+
 __all__ = [
     "Constraint",
     "GeomArcOfCircle",
@@ -59,11 +61,11 @@ class Constraint:
     Name: str = ""
     Value: float = 0.0
     First: int = -2000
-    FirstPos: int = 0
+    FirstPos: PointPos = PointPos.none
     Second: int = -2000
-    SecondPos: int = 0
+    SecondPos: PointPos = PointPos.none
     Third: int = -2000
-    ThirdPos: int = 0
+    ThirdPos: PointPos = PointPos.none
     Driving: bool = True
     InVirtualSpace: bool = False
     IsActive: bool = True

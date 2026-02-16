@@ -7,7 +7,7 @@ import zipfile
 from pathlib import Path
 from typing import IO
 
-from .enums import CONSTRAINT_TYPE_NAMES
+from .enums import CONSTRAINT_TYPE_NAMES, PointPos
 from .models import (
     BSplineKnot,
     BSplinePole,
@@ -294,11 +294,11 @@ def _parse_constraints(prop_el: ET.Element) -> list[Constraint]:
                 Name=c_el.get("Name", ""),
                 Value=_float(c_el, "Value"),
                 First=_int(c_el, "First", -2000),
-                FirstPos=_int(c_el, "FirstPos"),
+                FirstPos=PointPos(_int(c_el, "FirstPos")),
                 Second=_int(c_el, "Second", -2000),
-                SecondPos=_int(c_el, "SecondPos"),
+                SecondPos=PointPos(_int(c_el, "SecondPos")),
                 Third=_int(c_el, "Third", -2000),
-                ThirdPos=_int(c_el, "ThirdPos"),
+                ThirdPos=PointPos(_int(c_el, "ThirdPos")),
                 Driving=c_el.get("IsDriving", "1") == "1",
                 InVirtualSpace=c_el.get("IsInVirtualSpace", "0") == "1",
                 IsActive=c_el.get("IsActive", "1") == "1",
