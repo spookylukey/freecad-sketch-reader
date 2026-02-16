@@ -1,0 +1,30 @@
+[project]
+name = "freecad-sketch-reader"
+version = "0.1.0"
+description = "Read Sketch objects from FreeCAD .FCStd files"
+readme = "README.md"
+authors = [
+    { name = "Luke Plant", email = "luke@lukeplant.me.uk" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[build-system]
+requires = ["uv_build>=0.9.26,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.11",
+    "pre-commit>=4.0",
+]
+
+[tool.ruff]
+line-length = 99
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
