@@ -240,8 +240,8 @@ def _parse_geometry_element(geom_el: ET.Element) -> Geometry:
             return GeomBSplineCurve(
                 Degree=_int(bs_el, "Degree"),
                 IsPeriodic=bs_el.get("IsPeriodic", "0") == "1",
-                Poles=poles,
-                Knots=knots,
+                Poles=tuple(poles),
+                Knots=tuple(knots),
                 Construction=construction,
             )
 

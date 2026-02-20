@@ -50,7 +50,7 @@ class Vector:
 # ---------------------------------------------------------------------------
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class Constraint:
     """A single sketch constraint.
 
@@ -78,7 +78,7 @@ class Constraint:
 # ---------------------------------------------------------------------------
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomPoint:
     """A point in 3D space (``Part.Point``)."""
 
@@ -88,7 +88,7 @@ class GeomPoint:
     Construction: bool = False
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomLine:
     """An infinite line (``Part.Line``). Rare in sketches."""
 
@@ -97,7 +97,7 @@ class GeomLine:
     Construction: bool = False
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomLineSegment:
     """A line segment (``Part.LineSegment``)."""
 
@@ -106,7 +106,7 @@ class GeomLineSegment:
     Construction: bool = False
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomCircle:
     """A full circle (``Part.Circle``)."""
 
@@ -133,7 +133,7 @@ def _arc_point(
     return Vector(x, y, center_z)
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomArcOfCircle:
     """An arc of a circle (``Part.ArcOfCircle``)."""
 
@@ -199,7 +199,7 @@ def _ellipse_point(
     return Vector(x, y, center_z)
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomEllipse:
     """A full ellipse (``Part.Ellipse``)."""
 
@@ -237,7 +237,7 @@ class GeomEllipse:
         )
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomArcOfEllipse:
     """An arc of an ellipse (``Part.ArcOfEllipse``)."""
 
@@ -285,7 +285,7 @@ class GeomArcOfEllipse:
         return self.EndAngle
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomHyperbola:
     """A full hyperbola (``Part.Hyperbola``)."""
 
@@ -297,7 +297,7 @@ class GeomHyperbola:
     Construction: bool = False
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomArcOfHyperbola:
     """An arc of a hyperbola (``Part.ArcOfHyperbola``)."""
 
@@ -347,7 +347,7 @@ class GeomArcOfHyperbola:
         return self.EndAngle
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomParabola:
     """A full parabola (``Part.Parabola``)."""
 
@@ -358,7 +358,7 @@ class GeomParabola:
     Construction: bool = False
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomArcOfParabola:
     """An arc of a parabola (``Part.ArcOfParabola``)."""
 
@@ -409,7 +409,7 @@ class GeomArcOfParabola:
         return self.EndAngle
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class BSplinePole:
     """A single pole of a B-spline curve with its weight."""
 
@@ -417,7 +417,7 @@ class BSplinePole:
     Weight: float = 1.0
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class BSplineKnot:
     """A single knot of a B-spline curve with its multiplicity."""
 
@@ -425,14 +425,14 @@ class BSplineKnot:
     Mult: int = 1
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class GeomBSplineCurve:
     """A B-spline curve (``Part.BSplineCurve``)."""
 
     Degree: int = 0
     IsPeriodic: bool = False
-    Poles: list[BSplinePole] = field(default_factory=list)
-    Knots: list[BSplineKnot] = field(default_factory=list)
+    Poles: tuple[BSplinePole, ...] = ()
+    Knots: tuple[BSplineKnot, ...] = ()
     Construction: bool = False
 
     @property
@@ -456,11 +456,11 @@ class GeomBSplineCurve:
         return Vector()
 
     @property
-    def KnotSequence(self) -> list[float]:
+    def KnotSequence(self) -> tuple[float, ...]:
         seq: list[float] = []
         for k in self.Knots:
             seq.extend([k.Value] * k.Mult)
-        return seq
+        return tuple(seq)
 
 
 # Union of all geometry types that can appear in a sketch.

@@ -185,6 +185,20 @@ class TestConstraints:
             assert c.IsActive is True
 
 
+class TestHashability:
+    def test_geometry_is_hashable(self, sketch: Sketch) -> None:
+        for geom in sketch.Geometry:
+            hash(geom)  # should not raise
+
+    def test_constraint_is_hashable(self, sketch: Sketch) -> None:
+        for c in sketch.Constraints:
+            hash(c)  # should not raise
+
+    def test_geometry_usable_in_set(self, sketch: Sketch) -> None:
+        geom_set = set(sketch.Geometry)
+        assert len(geom_set) == len(sketch.Geometry)
+
+
 class TestFullyConstrained:
     def test_not_fully_constrained(self, sketch: Sketch) -> None:
         assert sketch.FullyConstrained is False
