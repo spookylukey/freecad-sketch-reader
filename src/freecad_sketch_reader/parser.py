@@ -261,6 +261,19 @@ def _parse_geometry_list(prop_el: ET.Element) -> list[Geometry]:
     return result
 
 
+def _parse_geometry_dict(prop_el: ET.Element) -> dict[int, Geometry]:
+    """Parse a <GeometryList> element, returning a dict keyed by geometry id."""
+    geom_list_el = prop_el.find("GeometryList")
+    if geom_list_el is None:
+        return {}
+    result: dict[int, Geometry] = {}
+    for geom_el in geom_list_el.findall("Geometry"):
+        geo_id = geom_el.get("id")
+        if geo_id is not None:
+            result[int(geo_id)] = _parse_geometry_element(geom_el)
+    return result
+
+
 # ---------------------------------------------------------------------------
 # Constraint XML parsing
 # ---------------------------------------------------------------------------
@@ -334,6 +347,7 @@ def _parse_sketch_object(obj_data_el: ET.Element, obj_name: str) -> Sketch:
     # ExternalGeo
     ext_prop = _find_property(props_el, "ExternalGeo")
     external_geo = _parse_geometry_list(ext_prop) if ext_prop is not None else []
+    external_geo_dict = _parse_geometry_dict(ext_prop) if ext_prop is not None else {}
 
     # Constraints
     cons_prop = _find_property(props_el, "Constraints")
@@ -353,6 +367,7 @@ def _parse_sketch_object(obj_data_el: ET.Element, obj_name: str) -> Sketch:
         Geometry=geometry,
         Constraints=constraints,
         ExternalGeo=external_geo,
+        ExternalGeoDict=external_geo_dict,
         FullyConstrained=fully_constrained,
     )
 

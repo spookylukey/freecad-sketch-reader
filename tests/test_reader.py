@@ -115,6 +115,21 @@ class TestExternalGeo:
         assert geom.StartPoint == Vector(0.0, 0.0, 0.0)
         assert geom.EndPoint == Vector(0.0, 1.0, 0.0)
 
+    def test_external_geo_dict_keys(self, sketch: Sketch) -> None:
+        assert set(sketch.ExternalGeoDict.keys()) == {-1, -2}
+
+    def test_external_geo_dict_h_axis(self, sketch: Sketch) -> None:
+        geom = sketch.ExternalGeoDict[-1]
+        assert isinstance(geom, GeomLineSegment)
+        assert geom.StartPoint == Vector(0.0, 0.0, 0.0)
+        assert geom.EndPoint == Vector(1.0, 0.0, 0.0)
+
+    def test_external_geo_dict_v_axis(self, sketch: Sketch) -> None:
+        geom = sketch.ExternalGeoDict[-2]
+        assert isinstance(geom, GeomLineSegment)
+        assert geom.StartPoint == Vector(0.0, 0.0, 0.0)
+        assert geom.EndPoint == Vector(0.0, 1.0, 0.0)
+
 
 class TestConstraints:
     def test_constraint_count(self, sketch: Sketch) -> None:

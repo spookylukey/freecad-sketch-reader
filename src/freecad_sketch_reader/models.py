@@ -497,6 +497,7 @@ class Sketch:
     Geometry: list[_GeometryType] = field(default_factory=list)
     Constraints: list[Constraint] = field(default_factory=list)
     ExternalGeo: list[_GeometryType] = field(default_factory=list)
+    ExternalGeoDict: dict[int, _GeometryType] = field(default_factory=dict)
     FullyConstrained: bool = False
 
     @property
