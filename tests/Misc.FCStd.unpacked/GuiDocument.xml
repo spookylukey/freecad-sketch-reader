@@ -83,28 +83,6 @@
                 </Property>
             </Properties>
         </ViewProvider>
-        <ViewProvider name="Origin" expanded="0" treeRank="277">
-            <Properties Count="6" TransientCount="0">
-                <Property name="DisplayMode" type="App::PropertyEnumeration" status="1">
-                    <Integer value="0"/>
-                </Property>
-                <Property name="OnTopWhenSelected" type="App::PropertyEnumeration" status="1">
-                    <Integer value="0"/>
-                </Property>
-                <Property name="SelectionStyle" type="App::PropertyEnumeration" status="1">
-                    <Integer value="0"/>
-                </Property>
-                <Property name="ShowInTree" type="App::PropertyBool" status="1">
-                    <Bool value="true"/>
-                </Property>
-                <Property name="Size" type="App::PropertyVector" status="5">
-                    <PropertyVector valueX="32.5000000000000000" valueY="32.5000000000000000" valueZ="32.5000000000000000"/>
-                </Property>
-                <Property name="Visibility" type="App::PropertyBool" status="1">
-                    <Bool value="false"/>
-                </Property>
-            </Properties>
-        </ViewProvider>
         <ViewProvider name="X_Axis" expanded="0" treeRank="278">
             <Properties Count="10" TransientCount="0">
                 <Property name="BoundingBox" type="App::PropertyBool" status="9">
@@ -129,13 +107,35 @@
                     <Bool value="true"/>
                 </Property>
                 <Property name="Size" type="App::PropertyFloat" status="16777217">
-                    <Float value="48.7500000000000000"/>
+                    <Float value="235.0079235076904070"/>
                 </Property>
                 <Property name="Transparency" type="App::PropertyPercent" status="1">
                     <Integer value="0"/>
                 </Property>
                 <Property name="Visibility" type="App::PropertyBool" status="1">
                     <Bool value="true"/>
+                </Property>
+            </Properties>
+        </ViewProvider>
+        <ViewProvider name="Origin" expanded="0" treeRank="277">
+            <Properties Count="6" TransientCount="0">
+                <Property name="DisplayMode" type="App::PropertyEnumeration" status="1">
+                    <Integer value="0"/>
+                </Property>
+                <Property name="OnTopWhenSelected" type="App::PropertyEnumeration" status="1">
+                    <Integer value="0"/>
+                </Property>
+                <Property name="SelectionStyle" type="App::PropertyEnumeration" status="1">
+                    <Integer value="0"/>
+                </Property>
+                <Property name="ShowInTree" type="App::PropertyBool" status="1">
+                    <Bool value="true"/>
+                </Property>
+                <Property name="Size" type="App::PropertyVector" status="5">
+                    <PropertyVector valueX="156.6719490051269474" valueY="122.4728103637695398" valueZ="32.5000000000000000"/>
+                </Property>
+                <Property name="Visibility" type="App::PropertyBool" status="1">
+                    <Bool value="false"/>
                 </Property>
             </Properties>
         </ViewProvider>
@@ -163,7 +163,7 @@
                     <Bool value="true"/>
                 </Property>
                 <Property name="Size" type="App::PropertyFloat" status="16777217">
-                    <Float value="48.7500000000000000"/>
+                    <Float value="183.7092155456543026"/>
                 </Property>
                 <Property name="Transparency" type="App::PropertyPercent" status="1">
                     <Integer value="0"/>
@@ -197,7 +197,7 @@
                     <Bool value="true"/>
                 </Property>
                 <Property name="Size" type="App::PropertyFloat" status="16777217">
-                    <Float value="48.7500000000000000"/>
+                    <Float value="183.7092155456543026"/>
                 </Property>
                 <Property name="Transparency" type="App::PropertyPercent" status="1">
                     <Integer value="0"/>
@@ -231,7 +231,7 @@
                     <Bool value="true"/>
                 </Property>
                 <Property name="Size" type="App::PropertyFloat" status="16777217">
-                    <Float value="32.5000000000000000"/>
+                    <Float value="156.6719490051269474"/>
                 </Property>
                 <Property name="Transparency" type="App::PropertyPercent" status="1">
                     <Integer value="0"/>
@@ -265,7 +265,7 @@
                     <Bool value="true"/>
                 </Property>
                 <Property name="Size" type="App::PropertyFloat" status="16777217">
-                    <Float value="32.5000000000000000"/>
+                    <Float value="156.6719490051269474"/>
                 </Property>
                 <Property name="Transparency" type="App::PropertyPercent" status="1">
                     <Integer value="0"/>
@@ -299,7 +299,7 @@
                     <Bool value="true"/>
                 </Property>
                 <Property name="Size" type="App::PropertyFloat" status="16777217">
-                    <Float value="32.5000000000000000"/>
+                    <Float value="122.4728103637695398"/>
                 </Property>
                 <Property name="Transparency" type="App::PropertyPercent" status="1">
                     <Integer value="0"/>
@@ -434,5 +434,5 @@
             </Properties>
         </ViewProvider>
     </ViewProviderData>
-    <Camera settings="OrthographicCamera {&#10;  viewportMapping ADJUST_CAMERA&#10;  position 147.39352 44.570953 91.741302&#10;  orientation 0 0 1  0&#10;  nearDistance 91.631584&#10;  farDistance 91.833046&#10;  aspectRatio 1&#10;  focalDistance 100&#10;  height 271.82816&#10;&#10;}&#10;"/>
+    <Camera settings="OrthographicCamera {&#10;  viewportMapping ADJUST_CAMERA&#10;  position 147.39352 44.570953 91.741302&#10;  orientation 0 0 1  0&#10;  nearDistance 91.649559&#10;  farDistance 91.833046&#10;  aspectRatio 1&#10;  focalDistance 100&#10;  height 271.82816&#10;&#10;}&#10;"/>
 </Document>
