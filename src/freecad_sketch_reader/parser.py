@@ -394,7 +394,8 @@ def _sketch_object_names(root: ET.Element) -> set[str]:
 def read_sketches_from_xml(source: str | Path | IO[bytes]) -> dict[str, Sketch]:
     """Read sketches from a Document.xml file or file-like object.
 
-    Returns a dict mapping object name -> Sketch.
+    Returns a dict mapping Label -> Sketch.  When a sketch has no
+    ``Label`` property the object *Name* is used as key instead.
     """
     tree = ET.parse(source)
     root = tree.getroot()
@@ -411,7 +412,9 @@ def read_sketches_from_xml(source: str | Path | IO[bytes]) -> dict[str, Sketch]:
     for obj_el in object_data.findall("Object"):
         name = obj_el.get("name", "")
         if name in sketch_names:
-            sketches[name] = _parse_sketch_object(obj_el, name)
+            sketch = _parse_sketch_object(obj_el, name)
+            key = sketch.Label if sketch.Label else name
+            sketches[key] = sketch
 
     return sketches
 
@@ -427,7 +430,7 @@ def read_sketches(path: str | Path) -> dict[str, Sketch]:
     Returns
     -------
     dict[str, Sketch]
-        Mapping of object name to :class:`Sketch`.
+        Mapping of label (or object name when no label exists) to :class:`Sketch`.
     """
     path = Path(path)
     with zipfile.ZipFile(path, "r") as zf, zf.open("Document.xml") as f:

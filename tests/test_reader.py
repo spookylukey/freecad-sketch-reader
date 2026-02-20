@@ -22,13 +22,13 @@ XML_FILE = TEST_DIR / "Misc.FCStd.unpacked" / "Document.xml"
 @pytest.fixture
 def sketch() -> Sketch:
     sketches = read_sketches(FCSTD_FILE)
-    return sketches["Sketch"]
+    return sketches["MySketch"]
 
 
 @pytest.fixture
 def sketch_from_xml() -> Sketch:
     sketches = read_sketches_from_xml(XML_FILE)
-    return sketches["Sketch"]
+    return sketches["MySketch"]
 
 
 class TestReadFromFCStd:
@@ -36,7 +36,12 @@ class TestReadFromFCStd:
         assert sketch.Name == "Sketch"
 
     def test_label(self, sketch: Sketch) -> None:
-        assert sketch.Label == "Sketch"
+        assert sketch.Label == "MySketch"
+
+    def test_dict_keyed_by_label(self) -> None:
+        sketches = read_sketches(FCSTD_FILE)
+        assert "MySketch" in sketches
+        assert "Sketch" not in sketches
 
 
 class TestReadFromXml:
