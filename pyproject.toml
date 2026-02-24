@@ -3,6 +3,7 @@ name = "freecad-sketch-reader"
 version = "0.1.0"
 description = "Read Sketch objects from FreeCAD .FCStd files"
 readme = "README.rst"
+license = {text = "LGPL-2.1-or-later"}
 authors = [
     { name = "Luke Plant", email = "luke@lukeplant.me.uk" }
 ]
