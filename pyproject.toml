@@ -9,6 +9,18 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = []
+keywords = [
+  "FreeCAD",
+  "geometry",
+  "sketches",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
 
 [build-system]
 requires = ["uv_build>=0.9.26,<0.10.0"]
