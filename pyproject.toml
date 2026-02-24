@@ -1,6 +1,6 @@
 [project]
 name = "freecad-sketch-reader"
-version = "0.2.0"
+version = "0.2.1"
 description = "Read Sketch objects from FreeCAD .FCStd files"
 readme = "README.rst"
 license = {text = "LGPL-2.1-or-later"}
