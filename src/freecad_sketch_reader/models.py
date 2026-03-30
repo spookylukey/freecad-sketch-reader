@@ -9,7 +9,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 
-from .enums import ConstraintTypeName, PointPos
+from .enums import ConstraintTypeName, InternalAlignmentTypeName, PointPos
 
 __all__ = [
     "Constraint",
@@ -55,6 +55,12 @@ class Constraint:
     """A single sketch constraint.
 
     ``Type`` is the human-readable string (e.g. ``"Distance"``).
+
+    For ``InternalAlignment`` constraints, ``InternalAlignmentType`` gives
+    the sub-type as a string (e.g. ``"BSplineControlPoint"``) and
+    ``InternalAlignmentIndex`` gives the index within that sub-type
+    (e.g. which pole of a B-spline).  For non-``InternalAlignment``
+    constraints these default to ``"Undef"`` and ``-1`` respectively.
     """
 
     Type: ConstraintTypeName
@@ -71,6 +77,8 @@ class Constraint:
     IsActive: bool = True
     LabelDistance: float = 10.0
     LabelPosition: float = 0.0
+    InternalAlignmentType: InternalAlignmentTypeName = "Undef"
+    InternalAlignmentIndex: int = -1
 
 
 # ---------------------------------------------------------------------------

@@ -3,7 +3,13 @@
 from enum import IntEnum
 from typing import Literal
 
-__all__ = ["ConstraintType", "ConstraintTypeName", "InternalAlignmentType", "PointPos"]
+__all__ = [
+    "ConstraintType",
+    "ConstraintTypeName",
+    "InternalAlignmentType",
+    "InternalAlignmentTypeName",
+    "PointPos",
+]
 
 
 class ConstraintType(IntEnum):
@@ -105,3 +111,37 @@ class InternalAlignmentType(IntEnum):
     BSplineControlPoint = 9
     BSplineKnotPoint = 10
     ParabolaFocalAxis = 11
+
+
+# Literal type covering all internal alignment type name strings.
+InternalAlignmentTypeName = Literal[
+    "Undef",
+    "EllipseMajorDiameter",
+    "EllipseMinorDiameter",
+    "EllipseFocus1",
+    "EllipseFocus2",
+    "HyperbolaMajor",
+    "HyperbolaMinor",
+    "HyperbolaFocus",
+    "ParabolaFocus",
+    "BSplineControlPoint",
+    "BSplineKnotPoint",
+    "ParabolaFocalAxis",
+]
+
+
+# String names used by the FreeCAD Python API for InternalAlignmentType
+INTERNAL_ALIGNMENT_TYPE_NAMES: dict[InternalAlignmentType, InternalAlignmentTypeName] = {
+    InternalAlignmentType.Undef: "Undef",
+    InternalAlignmentType.EllipseMajorDiameter: "EllipseMajorDiameter",
+    InternalAlignmentType.EllipseMinorDiameter: "EllipseMinorDiameter",
+    InternalAlignmentType.EllipseFocus1: "EllipseFocus1",
+    InternalAlignmentType.EllipseFocus2: "EllipseFocus2",
+    InternalAlignmentType.HyperbolaMajor: "HyperbolaMajor",
+    InternalAlignmentType.HyperbolaMinor: "HyperbolaMinor",
+    InternalAlignmentType.HyperbolaFocus: "HyperbolaFocus",
+    InternalAlignmentType.ParabolaFocus: "ParabolaFocus",
+    InternalAlignmentType.BSplineControlPoint: "BSplineControlPoint",
+    InternalAlignmentType.BSplineKnotPoint: "BSplineKnotPoint",
+    InternalAlignmentType.ParabolaFocalAxis: "ParabolaFocalAxis",
+}

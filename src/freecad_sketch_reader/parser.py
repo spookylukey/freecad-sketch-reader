@@ -7,7 +7,13 @@ import zipfile
 from pathlib import Path
 from typing import IO
 
-from .enums import CONSTRAINT_TYPE_NAMES, ConstraintType, PointPos
+from .enums import (
+    CONSTRAINT_TYPE_NAMES,
+    INTERNAL_ALIGNMENT_TYPE_NAMES,
+    ConstraintType,
+    InternalAlignmentType,
+    PointPos,
+)
 from .models import (
     BSplineKnot,
     BSplinePole,
@@ -292,6 +298,16 @@ def _parse_constraints(prop_el: ET.Element) -> list[Constraint]:
         except ValueError as err:
             raise AssertionError(f"Unknown constraint type {type_int}") from err
         type_str = CONSTRAINT_TYPE_NAMES[type_enum]
+
+        # InternalAlignment sub-type and index
+        ia_type_int = _int(c_el, "InternalAlignmentType", 0)
+        try:
+            ia_type_enum = InternalAlignmentType(ia_type_int)
+        except ValueError as err:
+            raise AssertionError(f"Unknown internal alignment type {ia_type_int}") from err
+        ia_type_str = INTERNAL_ALIGNMENT_TYPE_NAMES[ia_type_enum]
+        ia_index = _int(c_el, "InternalAlignmentIndex", -1)
+
         result.append(
             Constraint(
                 Type=type_str,
@@ -308,6 +324,8 @@ def _parse_constraints(prop_el: ET.Element) -> list[Constraint]:
                 IsActive=c_el.get("IsActive", "1") == "1",
                 LabelDistance=_float(c_el, "LabelDistance", 10.0),
                 LabelPosition=_float(c_el, "LabelPosition"),
+                InternalAlignmentType=ia_type_str,
+                InternalAlignmentIndex=ia_index,
             )
         )
     return result
